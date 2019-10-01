@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node Project to store Postman Collection",
   "scripts": {
-    "api-test": "newman run API-DOORWAY.postman_collection.json -e mbronnaya.postman_environment.json"
+    "api-test": "newman run API-DOORWAY.postman_collection.json -e mbronnaya.postman_environment.json -r html"
   },
   "keywords": [
     "Postman",
@@ -14,3 +14,4 @@
     "newman": "^4.5.5"
   }
 }
+
