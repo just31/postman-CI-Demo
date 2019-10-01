@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "b3777803-5d4c-4601-b43e-1b3fb3f534dd",
+		"name": "API-DOORWAY",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API-VUE",
+			"item": [
+				{
+					"name": "POST",
+					"item": [],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Получение доп. услуг по сертификатам",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f6a7aec9-8036-430b-b004-988e7fec8bc8",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "csrfmiddlewaretoken",
+											"value": "U4GZpUnoFYMnuj2hI190qG1wJ6JNt678efKl7Y4RLcYTMGWIF7u8g3nZHHhMFdiq",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "Evgeny",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "test123qwerty",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/gifts/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"gifts",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение доп. услуг по сертификатам с лимитом и offset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1ba22b51-08be-44f6-b299-18eeed3b143e",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"id is 1\"] = jsonData.results[0].id === 1;\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"За вами приедет Mercedes-Benz-S-класса\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(2);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/gifts/?limit=2&offset=3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"gifts",
+										""
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "2"
+										},
+										{
+											"key": "offset",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a0819489-a511-432e-b1da-86ef73dee297",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0a31d5e0-e39d-405d-b2ab-d5be049e307d",
+				"type": "text/javascript",
+				"exec": [
+					"tests[\"Status code is 200\"] = responseCode.code === 200;"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
