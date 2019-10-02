@@ -18,7 +18,7 @@
 					"name": "GET",
 					"item": [
 						{
-							"name": "Получение доп. услуг по сертификатам",
+							"name": "Запрос доп. услуг по сертификатам",
 							"event": [
 								{
 									"listen": "test",
@@ -72,7 +72,7 @@
 							"response": []
 						},
 						{
-							"name": "Получение доп. услуг по сертификатам с лимитом и offset",
+							"name": "Запрос доп. услуг по сертификатам с лимитом и offset",
 							"event": [
 								{
 									"listen": "test",
@@ -121,6 +121,44 @@
 											"key": "offset",
 											"value": "3"
 										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение списка лучших мероприятий",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c25b4a8d-f36a-47c9-ae85-3d0ae5215750",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"event_id is 493\"] = jsonData.result[0].event_id === 493;\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Театр на Малой Бронной\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/best_events/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"best_events",
+										""
 									]
 								}
 							},
