@@ -10,7 +10,89 @@
 			"item": [
 				{
 					"name": "POST",
-					"item": [],
+					"item": [
+						{
+							"name": "Проверка работы формы корп. заявки с заполненными полями",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://i-vasiliev.com/api/v1/corporate/?phone=00000000000&comment=Test!&email=test@test.com&name=Тест Евгений",
+									"protocol": "https",
+									"host": [
+										"i-vasiliev",
+										"com"
+									],
+									"path": [
+										"api",
+										"v1",
+										"corporate",
+										""
+									],
+									"query": [
+										{
+											"key": "phone",
+											"value": "00000000000"
+										},
+										{
+											"key": "comment",
+											"value": "Test!"
+										},
+										{
+											"key": "email",
+											"value": "test@test.com"
+										},
+										{
+											"key": "name",
+											"value": "Тест Евгений"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Проверка работы формы корп. заявки с пустыми полями",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "187b167c-3237-4be1-b8c8-d2d45bfc19b1",
+										"exec": [
+											"tests[\"Status code is 400\"] = responseCode.code === 400;\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Это поле обязательно.\");\r",
+											"});\r",
+											" \r",
+											"pm.test(\"Field email matches string\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData[\"email\"]).to.include(\"Это поле обязательно.\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/corporate/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"corporate",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
@@ -18,7 +100,7 @@
 					"name": "GET",
 					"item": [
 						{
-							"name": "Получение доп. услуг по сертификатам",
+							"name": "Запрос доп. услуг по сертификатам",
 							"event": [
 								{
 									"listen": "test",
@@ -72,7 +154,7 @@
 							"response": []
 						},
 						{
-							"name": "Получение доп. услуг по сертификатам с лимитом и offset",
+							"name": "Запрос доп. услуг по сертификатам с лимитом и offset",
 							"event": [
 								{
 									"listen": "test",
@@ -82,7 +164,7 @@
 											"var jsonData = JSON.parse(responseBody);\r",
 											"tests[\"id is 1\"] = jsonData.results[0].id === 1;\r",
 											"\r",
-											"pm.test(\"Body matches string\", function () {\r",
+											"pm.test(\"Body matches string - За вами приедет Mercedes-Benz-S-класса\", function () {\r",
 											"    pm.expect(pm.response.text()).to.include(\"За вами приедет Mercedes-Benz-S-класса\");\r",
 											"});\r",
 											"\r",
