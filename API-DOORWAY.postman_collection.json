@@ -10,7 +10,42 @@
 			"item": [
 				{
 					"name": "POST",
-					"item": [],
+					"item": [
+						{
+							"name": "Проверка работы формы корпоративной заявки с заполненными полями",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/corporate/?email=test@test.com&phone=00000000000&comment=Test!",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"corporate",
+										""
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "test@test.com"
+										},
+										{
+											"key": "phone",
+											"value": "00000000000"
+										},
+										{
+											"key": "comment",
+											"value": "Test!"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
