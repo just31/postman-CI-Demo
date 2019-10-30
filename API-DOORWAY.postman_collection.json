@@ -9,13 +9,1181 @@
 			"name": "API-VUE",
 			"item": [
 				{
-					"name": "POST",
+					"name": "events",
 					"item": [
 						{
-							"name": "Проверка работы формы корпоративной заявки с заполненными полями",
+							"name": "Получение списка лучших мероприятий",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c25b4a8d-f36a-47c9-ae85-3d0ae5215750",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"event_id is 61\"] = jsonData.results[0].event_id === 61;\r",
+											"\r",
+											"\r",
+											"pm.test(\"Body matches string - Театр на Малой Бронной\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Театр на Малой Бронной\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/best_events/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"best_events",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение событий площадки из кариола",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "464893a9-1dda-48c8-95c8-fb97cb409e80",
+										"exec": [
+											"pm.test(\"Body matches string - Крокус Сити Холл\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Крокус Сити Холл\");",
+											"});",
+											"",
+											"pm.test(\"Check the length of the resulting array results = 100\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.results.length).to.eql(100);",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});",
+											"",
+											"pm.test(\"Body matches string - RUB\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"RUB\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение событий площадки из кариола с лимитом и offset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96027aac-6c51-4f54-a3a7-ce10194e4c00",
+										"exec": [
+											"pm.test(\"Body matches string - Крокус Сити Холл\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Крокус Сити Холл\");",
+											"});",
+											"",
+											"pm.test(\"Check the length of the resulting array results = 3\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.results.length).to.eql(3);",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/?host_name=crocus-city-hall.me&limit=3&offset=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										},
+										{
+											"key": "limit",
+											"value": "3"
+										},
+										{
+											"key": "offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение событий площадки из кариола через слаг",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d0632bbc-1580-4f53-b298-5124c4d858de",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"id is 67324\"] = jsonData.id === 67324;\r",
+											"\r",
+											"tests[\"slug = kidsparty_novyj_god\"] = jsonData.slug === \"kidsparty_novyj_god\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/kidsparty_novyj_god/?host_name=kidtix.ru",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"kidsparty_novyj_god",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "kidtix.ru"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение данных по фильтрам из carryall",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f78c57d8-6574-4ea4-aa7d-f91c8a3fb712",
+										"exec": [
+											"pm.test(\"Body matches string - Календарь\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Календарь\");",
+											"});",
+											"",
+											"pm.test(\"Lists genre contains genre\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.lists.genre.name).to.eql(\"genre\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/poster_filters/?host_name=arena-vtb.com",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"poster_filters",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "arena-vtb.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Отправка данных в бинтранет с \"формы\" для корпоративных клиентов",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1efd482f-31cc-45b3-a496-8f4a84038c1a",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"bintranet_id is no empty\"] = jsonData.bintranet_id !== \"\";",
+											"",
+											"pm.test(\"Body matches string - Календарь\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"спасибо за заказ\");",
+											"});",
+											"",
+											"pm.test(\"Phone equal 89999999999\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.phone).to.eql('89999999999');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Тест Евгений",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "00000000000",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "test2@test.com",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "bintranet_id",
+											"value": "D125455",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "customer",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "phone",
+											"value": "89999999999",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "address",
+											"value": "null",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "null",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "total_cost",
+											"value": "0",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "quantity",
+											"value": "0",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "thanks",
+											"value": "спасибо за заказ",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "type",
+											"value": "call_order",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/events/send_from_corporate_client/?client_phone=89999999999&client_email=test@test.com",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										"send_from_corporate_client",
+										""
+									],
+									"query": [
+										{
+											"key": "client_phone",
+											"value": "89999999999"
+										},
+										{
+											"key": "client_email",
+											"value": "test@test.com"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение события через параметр ByLetter",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "95bbbfcf-0f90-4f7a-b1f1-0d3322e88a0e",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(1);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"count is 1\"] = jsonData.count === 1;\r",
+											"tests[\"results first title = Жаркий новый год 2020\"] = jsonData.results[0].title === \"Жаркий новый год 2020\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/events/?host_name=crocus-city-hall.me&optByLetter=true&query=ж",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"events",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										},
+										{
+											"key": "optByLetter",
+											"value": "true"
+										},
+										{
+											"key": "query",
+											"value": "ж"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "news",
+					"item": [
+						{
+							"name": "Получение новостей сайта",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dd54f3d2-8238-47fc-8602-88f47a1d13e5",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"Id is test new to equal 186\"] = jsonData.results[0].id === 186;",
+											"",
+											"pm.test(\"Results contains title - Тестовая новость\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.results[0].title).to.eql(\"Тестовая новость\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/news/?sortBy=id&query=тест",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"news",
+										""
+									],
+									"query": [
+										{
+											"key": "sortBy",
+											"value": "id"
+										},
+										{
+											"key": "query",
+											"value": "тест"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": " Получение новостей сайта по id ",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c1c92f5c-a63a-45bc-90ac-7f1737a3b76d",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"Id is new 186\"] = jsonData.id === 186;",
+											"",
+											"tests[\"Slug is new - testovaja-novost\"] = jsonData.slug === \"testovaja-novost\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/news/186/?query=Тестовая новость",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"news",
+										"186",
+										""
+									],
+									"query": [
+										{
+											"key": "query",
+											"value": "Тестовая новость"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "places",
+					"item": [
+						{
+							"name": "Получение площадки",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "36456fd7-eab4-448e-8252-86142413850e",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(1);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/places/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"places",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CRUD Главной страницы площадки по id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "530fdece-c690-4782-b2d2-756b99ea7a02",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"tests[\"Id is hall 25\"] = jsonData.id === 25;",
+											"",
+											"tests[\"Title is hall - Крокус Сити Холл - билеты на концерты в Москве\"] = jsonData.seo_title === \"Крокус Сити Холл - билеты на концерты в Москве\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/places/25/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"places",
+										"25",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CRUD Главной страницы площадки, добавление новой площадки",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "csrftoken",
+										"value": "OutZ4dODYBVcx5yifgqAy2r9M9sru9SL6oje9f7rQnTCgPYjZSbOESg2KE5hHehV",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "sessionid",
+										"value": "hmlkavjyrefbz2omgclhk22i8tr8qrrt",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "description",
+											"value": "Тестовое описание",
+											"type": "text"
+										},
+										{
+											"key": "seo_title",
+											"value": "Тестовый сео-тайтл",
+											"type": "text"
+										},
+										{
+											"key": "seo_text",
+											"value": "Тестовый сео-текст",
+											"type": "text"
+										},
+										{
+											"key": "para_event_place",
+											"value": "Тестовый para_event_place",
+											"type": "text"
+										},
+										{
+											"key": "para_event_place2",
+											"value": "Тестовый para_event_place2",
+											"type": "text"
+										},
+										{
+											"key": "para_leader",
+											"value": "Тестовый para_leader",
+											"type": "text"
+										},
+										{
+											"key": "leader_img",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "para_hall",
+											"value": "Тестовый para_hall",
+											"type": "text"
+										},
+										{
+											"key": "hall_img",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "video_hash",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "video_text",
+											"value": "video text",
+											"type": "text"
+										},
+										{
+											"key": "video_img",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "para_support",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "para_buy_tickets",
+											"value": "none",
+											"type": "text"
+										},
+										{
+											"key": "para_subscribe",
+											"value": "none subscribe",
+											"type": "text"
+										},
+										{
+											"key": "map_iframe",
+											"value": "test map",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/v1/places/?",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"places",
+										""
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "seo",
+					"item": [
+						{
+							"name": "Получение площадки seo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7caba37d-cd49-4ca6-8ab9-af769a6e9a90",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"\r",
+											"tests[\"count is 1\"] = jsonData.count === 1;\r",
+											"tests[\"results.seo.title is contains - Крокус Сити Холл - билеты на концерты в Москве\"] = jsonData.results[0].seo.index.title === \"Крокус Сити Холл - билеты на концерты в Москве\";\r",
+											"\r",
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    //pm.expect(jsonData.results.seo.index.length).to.eql(10);\r",
+											"    var counter = 0;\r",
+											"    for(idx in jsonData.results[0].seo) {\r",
+											"        jsonData.results[0].seo[idx]\r",
+											"        counter++\r",
+											"    }\r",
+											"    pm.expect(15).to.eql(counter);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/seo/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение площадки seo по id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/seo/9/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										"9",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Отдаем набор seo-данных (title, meta, og, etc.) для всех типов страниц",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/seo/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"seo",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "venues",
+					"item": [
+						{
+							"name": "Получение площадок сайта(матрешка)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e53c7278-197f-47f9-926f-f60299a3b1cb",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(82);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results first id is not empty\"] = jsonData.results[0].id !== \"\";\r",
+											"tests[\"results three name is not empty\"] = jsonData.results[2].name !== \"\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://ticket247.ru/api/v1/venues/?host_name=ticket247.ru",
+									"protocol": "https",
+									"host": [
+										"ticket247",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"venues",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "ticket247.ru"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение площадок сайта(матрешка) по id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "723fc036-4bd7-48a3-9911-9d73c307295c",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results id = 305\"] = jsonData.id === 305;\r",
+											"tests[\"results name by 305 id = КЗ Чайковского\"] = jsonData.name === \"КЗ Чайковского\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://ticket247.ru/api/v1/venues/305/?host_name=ticket247.ru",
+									"protocol": "https",
+									"host": [
+										"ticket247",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"venues",
+										"305",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "ticket247.ru"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение площадок сайта(матрешка) с лимитом и offset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2be3cd79-f29c-4ef2-b533-c6607157c871",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(2);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results id first is not empty\"] = jsonData.results[0].id !== \"\";\r",
+											"tests[\"results slug first is not empty\"] = jsonData.results[0].slug !== \"\";\r",
+											"\r",
+											"tests[\"results count = 82\"] = jsonData.count === 82;"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://ticket247.ru/api/v1/venues/?host_name=ticket247.ru&limit=2&offset=5",
+									"protocol": "https",
+									"host": [
+										"ticket247",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"venues",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "ticket247.ru"
+										},
+										{
+											"key": "limit",
+											"value": "2"
+										},
+										{
+											"key": "offset",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение площадок сайта(матрешка) по категориям",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d41a0416-b80d-44e3-8fbe-06d7f918d3fb",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results id = 1\"] = jsonData[3].id === 1;\r",
+											"tests[\"results name two = Спорт\"] = jsonData[1].name === \"Спорт\";\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://ticket247.ru/api/v1/venues/categories/?host_name=ticket247.ru",
+									"protocol": "https",
+									"host": [
+										"ticket247",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"venues",
+										"categories",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "ticket247.ru"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение площадок сайта(матрешка) по городам",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8fa13950-9993-4e58-9720-931be31af75b",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.length).to.eql(11);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results id four = 17\"] = jsonData[3].id === 17;\r",
+											"tests[\"results name two = Милан\"] = jsonData[1].name === \"Милан\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://ticket247.ru/api/v1/venues/cities/?host_name=ticket247.ru",
+									"protocol": "https",
+									"host": [
+										"ticket247",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"venues",
+										"cities",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "ticket247.ru"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "tokens",
+					"item": [
+						{
+							"name": "Получение token'а авторизации ",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "88c5e073-ddbe-4fc8-aa74-d5f2283a67c3",
+										"exec": [
+											"pm.test(\"Token verification was successful\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.token).to.eql(\"565989502e7e4c5c1888cd8614d1ea81f651d314\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 200ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);",
+											"});",
+											"",
+											"pm.test(\"Successful POST request\", function () {",
+											"    pm.expect(pm.response.code).to.be.oneOf([200,201]);",
+											"});",
+											"",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "Evgeny",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "test123qwerty",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api-token-auth/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api-token-auth",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "form_corporate",
+					"item": [
+						{
+							"name": "Проверка работы формы корп. заявки с заполненными полями",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
 								"url": {
 									"raw": "{{url}}/api/v1/corporate/?email=test@test.com&phone=00000000000&comment=Test!",
 									"host": [
@@ -44,13 +1212,33 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Проверка работы формы корп. заявки с пустыми полями",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/corporate/",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"corporate",
+										""
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"protocolProfileBehavior": {},
 					"_postman_isSubFolder": true
 				},
 				{
-					"name": "GET",
+					"name": "gifts",
 					"item": [
 						{
 							"name": "Запрос доп. услуг по сертификатам",
@@ -160,21 +1348,32 @@
 								}
 							},
 							"response": []
-						},
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "reCapcha3",
+					"item": [
 						{
-							"name": "Получение списка лучших мероприятий",
+							"name": "Check reCapcha3",
 							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8ca9747e-41c0-4a3a-8c90-942ce6153f63",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
 								{
 									"listen": "test",
 									"script": {
-										"id": "c25b4a8d-f36a-47c9-ae85-3d0ae5215750",
+										"id": "2607ff7b-24ab-407d-9b86-2547c145aaeb",
 										"exec": [
-											"var jsonData = JSON.parse(responseBody);\r",
-											"tests[\"event_id is 493\"] = jsonData.result[0].event_id === 493;\r",
-											"\r",
-											"pm.test(\"Body matches string\", function () {\r",
-											"    pm.expect(pm.response.text()).to.include(\"Театр на Малой Бронной\");\r",
-											"});\r",
 											""
 										],
 										"type": "text/javascript"
@@ -185,14 +1384,571 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/v1/best_events/",
+									"raw": "https://www.google.com/recaptcha/api/siteverify?secret=6Ld44rUUAAAAAJe0jJKzovDFFFYNW88tOyjGUg_0&response=03AOLTBLQvZEnRBg1LjjxxRKR3WpE0HMnS5Vi_EdbSzEJwNgj1csvsU23zeI0vpDNXc7cO6Qryo62UtlGDr-5-V41-5-kekwNnYKOu1BnkRy1B1VAtBNv6SGeTyL4c-B-xs0k9oqpxpzxqsudlGvnqDLuszj8QR60i5R_dOAH0ktNEMbVeI0-PqtrX4azOFDm3stS6qW0zxTFnin0R5SL3UBxQSbSAvfqV4YgxXscqzKsaZpooqZcSZWjPe0S0un5WLjncfWUlaJD5RMNUE0SCFCntryb1G1OAWdMBSSxDtbQAWsFdGQ5OTMSx_sESHHrfzxW4VKkoP-VoY__hBH2Ef3zoFiRX7Kj1jRMFMkwdDzLC5E4HvvI8VBExQ3SZdz8MBsBVVZ-VJkDc_rIUPtx9Snwx2oFPV8ItbOkt-tXD2xefEhdbpA5zXYWhdjF8Z7_A7IeJma-gY3Xo9Q9KeJQhdbkGSbIZpYSuQ_LFHxgPFt5YhRNTWkxUz8U",
+									"protocol": "https",
+									"host": [
+										"www",
+										"google",
+										"com"
+									],
+									"path": [
+										"recaptcha",
+										"api",
+										"siteverify"
+									],
+									"query": [
+										{
+											"key": "secret",
+											"value": "6Ld44rUUAAAAAJe0jJKzovDFFFYNW88tOyjGUg_0"
+										},
+										{
+											"key": "response",
+											"value": "03AOLTBLQvZEnRBg1LjjxxRKR3WpE0HMnS5Vi_EdbSzEJwNgj1csvsU23zeI0vpDNXc7cO6Qryo62UtlGDr-5-V41-5-kekwNnYKOu1BnkRy1B1VAtBNv6SGeTyL4c-B-xs0k9oqpxpzxqsudlGvnqDLuszj8QR60i5R_dOAH0ktNEMbVeI0-PqtrX4azOFDm3stS6qW0zxTFnin0R5SL3UBxQSbSAvfqV4YgxXscqzKsaZpooqZcSZWjPe0S0un5WLjncfWUlaJD5RMNUE0SCFCntryb1G1OAWdMBSSxDtbQAWsFdGQ5OTMSx_sESHHrfzxW4VKkoP-VoY__hBH2Ef3zoFiRX7Kj1jRMFMkwdDzLC5E4HvvI8VBExQ3SZdz8MBsBVVZ-VJkDc_rIUPtx9Snwx2oFPV8ItbOkt-tXD2xefEhdbpA5zXYWhdjF8Z7_A7IeJma-gY3Xo9Q9KeJQhdbkGSbIZpYSuQ_LFHxgPFt5YhRNTWkxUz8U"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "certificate",
+					"item": [
+						{
+							"name": "Получение типов сертификатов",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a13e59d5-725d-4266-8c43-4a12bbd2a028",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(15);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"count is 15\"] = jsonData.count === 15;\r",
+											"tests[\"results first title = Поздравляю С Днем Учителя!\"] = jsonData.results[0].title === \"Поздравляю С Днем Учителя!\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/certificate-events/?host_name=crocus-city-hall.me",
 									"host": [
 										"{{url}}"
 									],
 									"path": [
 										"api",
 										"v1",
-										"best_events",
+										"certificate-events",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение типов сертификатов с лимитом и offset",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "932ab7d1-a7a4-403b-b8ee-48b85efc2bfb",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(3);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"results first title = Любимой подруге!\"] = jsonData.results[2].title === \"Любимой подруге!\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/certificate-events/?host_name=crocus-city-hall.me&limit=3&offseet=4",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"certificate-events",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										},
+										{
+											"key": "limit",
+											"value": "3"
+										},
+										{
+											"key": "offseet",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "certificates",
+					"item": [
+						{
+							"name": "Получение данных по сертификатам",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0b1ba870-dae1-4b9c-ac69-8d0d4c29df66",
+										"exec": [
+											"pm.test(\"Check the length of the resulting array results = 2\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.results.length).to.eql(1);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"currency is RUB\"] = jsonData.results[0].currency === \"RUB\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/certificates/?host_name=crocus-city-hall.me",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"certificates",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Получение данных по сертификатам по id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c8f82324-544c-4d54-a6a8-6d68457cfa97",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"currency is RUB\"] = jsonData.currency === \"RUB\";\r",
+											"tests[\"sert_img is crocus_qiXMZTO.png\"] = jsonData.sert_img === \"https://doorway.tix-system.com/media/sertificate/crocus_qiXMZTO.png\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/v1/certificates/51/?host_name=mariinskii.com",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"certificates",
+										"51",
+										""
+									],
+									"query": [
+										{
+											"key": "host_name",
+											"value": "mariinskii.com"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "basket",
+					"item": [
+						{
+							"name": "Получение данных из корзины по uuid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ef03d6e9-5bce-4f23-baac-5bb0bd6b0048",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"got uuid it's right\"] = jsonData.uuid !== \"\";\r",
+											"tests[\"tickets array is not empty\"] = jsonData.tickets !== \"\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/7fd4d5be-f97d-11e9-a829-0a4c4c992857/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"baskets",
+										"7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Добавление билета в корзину",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "79c25ee0-605e-4533-b313-ddf86d76c01d",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"Данные в корзину, были успешно добавлены\"] = jsonData !== \"\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "basket_uuid",
+											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"type": "text"
+										},
+										{
+											"key": "carryall_id",
+											"value": "3j_-DW4BdNJS2kpBya-P",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "9200.0",
+											"type": "text"
+										},
+										{
+											"key": "event_date",
+											"value": "2019-10-29T20:00:00+03:00",
+											"type": "text"
+										},
+										{
+											"key": "margin",
+											"value": "1.0",
+											"type": "text"
+										},
+										{
+											"key": "created_at",
+											"value": "2019-09-28T15:51:39.286000+03:00",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/tickets/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"tickets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Обновление информации о билете",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c84637f9-c56e-48b9-9d32-a8829f36a6c7",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"Данные в корзину, были успешно добавлены\"] = jsonData !== \"\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "basket_uuid",
+											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"type": "text"
+										},
+										{
+											"key": "carryall_id",
+											"value": "3j_-DW4BdNJS2kpBya-P",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "9230.0",
+											"type": "text"
+										},
+										{
+											"key": "event_date",
+											"value": "2019-10-29T20:00:00+03:00",
+											"type": "text"
+										},
+										{
+											"key": "margin",
+											"value": "1.0",
+											"type": "text"
+										},
+										{
+											"key": "created_at",
+											"value": "2019-09-28T15:51:39.286000+03:00",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/tickets/3j_-DW4BdNJS2kpBya-P/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"tickets",
+										"3j_-DW4BdNJS2kpBya-P",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": " Удаление билета из корзины",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2d06c09c-08c5-4fae-972e-7397370e7180",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"Данные из корзины, были успешно удалены\"] = jsonData !== \"\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/tickets/7fd4d5be-f97d-11e9-a829-0a4c4c992857_3j_-DW4BdNJS2kpBya-P?",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"tickets",
+										"7fd4d5be-f97d-11e9-a829-0a4c4c992857_3j_-DW4BdNJS2kpBya-P"
+									],
+									"query": [
+										{
+											"key": "basket_uuid",
+											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "order",
+					"item": [
+						{
+							"name": "Оформление заказа",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "host_name",
+											"value": "crocus-city-hall.me",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test@test.com",
+											"type": "text"
+										},
+										{
+											"key": "first_name",
+											"value": "Тест Евгений",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "890000000000",
+											"type": "text"
+										},
+										{
+											"key": "pay_type",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "basket",
+											"value": "{\n    \"uuid\": \"7fd4d5be-f97d-11e9-a829-0a4c4c992857\",\n    \"ticket_ids\": [\n        \"3j_-DW4BdNJS2kpBya-P\"\n    ],\n    \"tickets\": {\n        \"3j_-DW4BdNJS2kpBya-P\": {\n            \"basket_uuid\": \"7fd4d5be-f97d-11e9-a829-0a4c4c992857\",\n            \"carryall_id\": \"3j_-DW4BdNJS2kpBya-P\",\n            \"price\": 9200.0,\n            \"event_date\": \"2019-10-29T20:00:00+03:00\",\n            \"margin\": 1.0,\n            \"is_multipled\": false,\n            \"created_at\": \"2019-09-28T15:51:39.286000+03:00\",\n            \"profit\": false,\n            \"group_ids\": []\n        }\n    }\n}",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/order/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"order",
 										""
 									]
 								}
