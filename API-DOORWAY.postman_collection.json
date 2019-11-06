@@ -2073,86 +2073,13 @@
 									{
 										"key": "Content-Type",
 										"name": "Content-Type",
-										"value": "application/x-www-form-urlencoded",
+										"value": "application/json",
 										"type": "text"
 									}
 								],
 								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "host_name",
-											"value": "crocus-city-hall.me",
-											"type": "text"
-										},
-										{
-											"key": "email",
-											"value": "test@test.com",
-											"type": "text"
-										},
-										{
-											"key": "first_name",
-											"value": "Тест Евгений",
-											"type": "text"
-										},
-										{
-											"key": "phone",
-											"value": "890000000000",
-											"type": "text"
-										},
-										{
-											"key": "pay_type",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "basket",
-											"value": "{\n  \"uuid\": \"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\",\n  \"ticket_ids\": [\n    \"HmdPoG0Bx5sQ7cncT5ee\"\n  ],\n  \"tickets\": {\n    \"HmdPoG0Bx5sQ7cncT5ee\": {\n      \"basket_uuid\": \"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\",\n      \"carryall_id\": \"HmdPoG0Bx5sQ7cncT5ee\",\n      \"sector\": \"Партер\",\n      \"row\": \"1\",\n      \"seat\": \"2\",\n      \"price\": 1600.0,\n      \"predict_purchase\": 1200.0,\n      \"n_price\": 1600.0,\n      \"event_title\": \"Каприз королевы\",\n      \"event_slug\": \"kapriz_korolevy\",\n      \"event_place\": \"Иван Васильев\",\n      \"event_location\": \"Большая сцена\",\n      \"event_date\": \"2019-10-18T12:00:00+03:00\",\n      \"event_photo\": \"None\",\n      \"event_type\": \"\",\n      \"event_id\": 470377,\n      \"seance_id\": 470377,\n      \"d_id\": 0,\n      \"currency\": \"rur\",\n      \"margin\": 1.0,\n      \"count\": 1,\n      \"is_multipled\": false,\n      \"fee\": 0,\n      \"created_at\": \"2019-10-16T17:27:37.617000+03:00\",\n      \"profit\": true,\n      \"group_ids\": [\n        \"HmdPoG0Bx5sQ7cncT5ee\"\n      ]\n    }\n  }\n}",
-											"type": "text"
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										}
-									],
+									"mode": "raw",
+									"raw": "{\"host_name\":\"crocus-city-hall.me\",\"first_name\":\"Test Evgeny\",\"phone\":\"123\",\"email\":\"test@test.com\",\"pay_type\":\"1\",\"basket\":\"{\\n  \\\"uuid\\\": \\\"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\\\",\\n  \\\"ticket_ids\\\": [\\n    \\\"HmdPoG0Bx5sQ7cncT5ee\\\"\\n  ],\\n  \\\"tickets\\\": {\\n    \\\"HmdPoG0Bx5sQ7cncT5ee\\\": {\\n      \\\"basket_uuid\\\": \\\"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\\\",\\n      \\\"carryall_id\\\": \\\"HmdPoG0Bx5sQ7cncT5ee\\\",\\n      \\\"sector\\\": \\\"\\u041f\\u0430\\u0440\\u0442\\u0435\\u0440\\\",\\n      \\\"row\\\": \\\"1\\\",\\n      \\\"seat\\\": \\\"2\\\",\\n      \\\"price\\\": 1600.0,\\n      \\\"predict_purchase\\\": 1200.0,\\n      \\\"n_price\\\": 1600.0,\\n      \\\"event_title\\\": \\\"\\u041a\\u0430\\u043f\\u0440\\u0438\\u0437 \\u043a\\u043e\\u0440\\u043e\\u043b\\u0435\\u0432\\u044b\\\",\\n      \\\"event_slug\\\": \\\"kapriz_korolevy\\\",\\n      \\\"event_place\\\": \\\"\\u0418\\u0432\\u0430\\u043d \\u0412\\u0430\\u0441\\u0438\\u043b\\u044c\\u0435\\u0432\\\",\\n      \\\"event_location\\\": \\\"\\u0411\\u043e\\u043b\\u044c\\u0448\\u0430\\u044f \\u0441\\u0446\\u0435\\u043d\\u0430\\\",\\n      \\\"event_date\\\": \\\"2019-10-18T12:00:00+03:00\\\",\\n      \\\"event_photo\\\": \\\"None\\\",\\n      \\\"event_type\\\": \\\"\\\",\\n      \\\"event_id\\\": 470377,\\n      \\\"seance_id\\\": 470377,\\n      \\\"d_id\\\": 0,\\n      \\\"currency\\\": \\\"rur\\\",\\n      \\\"margin\\\": 1.0,\\n      \\\"count\\\": 1,\\n      \\\"is_multipled\\\": false,\\n      \\\"fee\\\": 0,\\n      \\\"created_at\\\": \\\"2019-10-16T17:27:37.617000+03:00\\\",\\n      \\\"profit\\\": true,\\n      \\\"group_ids\\\": [\\n        \\\"HmdPoG0Bx5sQ7cncT5ee\\\"\\n      ]\\n    }\\n  }\\n}\"}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2170,6 +2097,78 @@
 										"api",
 										"v1",
 										"order",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "Регистрация пользователя через форму регистрации, с отправкой email уведомления",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "username",
+											"value": "just8",
+											"type": "text"
+										},
+										{
+											"key": "first_name",
+											"value": "Евгений",
+											"type": "text"
+										},
+										{
+											"key": "middle_name",
+											"value": "Викторович",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "Моисеев",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "125",
+											"type": "text"
+										},
+										{
+											"key": "passworddup",
+											"value": "125",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://dev.juventus.com.ru/api/v1/users/registration/",
+									"protocol": "http",
+									"host": [
+										"dev",
+										"juventus",
+										"com",
+										"ru"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"registration",
 										""
 									]
 								}
