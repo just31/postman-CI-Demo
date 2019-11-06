@@ -276,16 +276,14 @@
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Тест Евгений",
-											"type": "text",
-											"disabled": true
+											"key": "client_phone",
+											"value": "89999999999",
+											"type": "text"
 										},
 										{
-											"key": "phone",
-											"value": "00000000000",
-											"type": "text",
-											"disabled": true
+											"key": "client_email",
+											"value": "test@test.com",
+											"type": "text"
 										},
 										{
 											"key": "email",
@@ -350,7 +348,7 @@
 									]
 								},
 								"url": {
-									"raw": "{{url}}/api/v1/events/send_from_corporate_client/?client_phone=89999999999&client_email=test@test.com",
+									"raw": "{{url}}/api/v1/events/corporate/",
 									"host": [
 										"{{url}}"
 									],
@@ -358,18 +356,8 @@
 										"api",
 										"v1",
 										"events",
-										"send_from_corporate_client",
+										"corporate",
 										""
-									],
-									"query": [
-										{
-											"key": "client_phone",
-											"value": "89999999999"
-										},
-										{
-											"key": "client_email",
-											"value": "test@test.com"
-										}
 									]
 								}
 							},
@@ -1623,7 +1611,21 @@
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);\r",
 											"tests[\"got uuid it's right\"] = jsonData.uuid !== \"\";\r",
-											"tests[\"tickets array is not empty\"] = jsonData.tickets !== \"\";"
+											"tests[\"tickets array is not empty\"] = jsonData.tickets !== \"\";\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0028035c-bd73-437f-92b5-b43c8622c18f",
+										"exec": [
+											""
 										],
 										"type": "text/javascript"
 									}
@@ -1633,7 +1635,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/7fd4d5be-f97d-11e9-a829-0a4c4c992857/",
+									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/{{uuid}}/",
 									"protocol": "https",
 									"host": [
 										"crocus-city-hall",
@@ -1644,7 +1646,7 @@
 										"v1",
 										"basket",
 										"baskets",
-										"7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+										"{{uuid}}",
 										""
 									]
 								}
@@ -1652,7 +1654,7 @@
 							"response": []
 						},
 						{
-							"name": "Добавление билета в корзину",
+							"name": "Добавление билетов в корзину",
 							"event": [
 								{
 									"listen": "test",
@@ -1674,7 +1676,7 @@
 									"formdata": [
 										{
 											"key": "basket_uuid",
-											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"value": "{{uuid}}",
 											"type": "text"
 										},
 										{
@@ -1723,15 +1725,15 @@
 							"response": []
 						},
 						{
-							"name": "Обновление информации о билете",
+							"name": "Обновление информации о билетах",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "c84637f9-c56e-48b9-9d32-a8829f36a6c7",
+										"id": "87e46ff1-e3a2-4a57-859f-00cbf0700174",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);\r",
-											"tests[\"Данные в корзину, были успешно добавлены\"] = jsonData !== \"\";"
+											"tests[\"Данные в корзине, были успешно обновлены\"] = jsonData !== \"\";"
 										],
 										"type": "text/javascript"
 									}
@@ -1745,7 +1747,7 @@
 									"formdata": [
 										{
 											"key": "basket_uuid",
-											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"value": "{{uuid}}",
 											"type": "text"
 										},
 										{
@@ -1795,7 +1797,7 @@
 							"response": []
 						},
 						{
-							"name": " Удаление билета из корзины",
+							"name": "Удаление билетов из корзины",
 							"event": [
 								{
 									"listen": "test",
@@ -1813,7 +1815,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://crocus-city-hall.me/api/v1/basket/tickets/7fd4d5be-f97d-11e9-a829-0a4c4c992857_3j_-DW4BdNJS2kpBya-P?",
+									"raw": "https://crocus-city-hall.me/api/v1/basket/tickets/{{uuid}}_3j_-DW4BdNJS2kpBya-P?",
 									"protocol": "https",
 									"host": [
 										"crocus-city-hall",
@@ -1824,12 +1826,231 @@
 										"v1",
 										"basket",
 										"tickets",
-										"7fd4d5be-f97d-11e9-a829-0a4c4c992857_3j_-DW4BdNJS2kpBya-P"
+										"{{uuid}}_3j_-DW4BdNJS2kpBya-P"
 									],
 									"query": [
 										{
 											"key": "basket_uuid",
-											"value": "7fd4d5be-f97d-11e9-a829-0a4c4c992857",
+											"value": "{{uuid}}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Создание объекта корзины",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "f476e528-25d8-431b-b0b8-2e0db7c6996e",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "736a2a54-d728-4f7e-bbf5-38aca2e352fe",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"uuid basket is settle\"] = jsonData.uuid !== \"\";\r",
+											"\r",
+											"tests[\"basket name user = Test\"] = jsonData.name === \"Test\";\r",
+											"tests[\"basket email user = test@test.com\"] = jsonData.email === \"test@test.com\";\r",
+											"\r",
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable (\"uuid\", jsonData.uuid);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "uuid",
+											"value": "b2bb3b2c-ffc6-11e9-a353-9e97a793de25",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Test",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test@test.com",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "89000000000",
+											"type": "text"
+										},
+										{
+											"key": "site_name",
+											"value": "https://crocus-city-hall.me",
+											"type": "text"
+										},
+										{
+											"key": "ticket_ids",
+											"value": "HmdPoG0Bx5sQ7cncT5ee",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"baskets",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Обновление информации о корзине",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2b8c005b-9ef8-4d68-ae0f-b62096cc6204",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"postman.setEnvironmentVariable (\"uuid_update\", jsonData.uuid);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "uuid",
+											"value": "{{uuid}}",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "Test",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "test@test.com",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "89000000001",
+											"type": "text"
+										},
+										{
+											"key": "site_name",
+											"value": "https://crocus-city-hall.me",
+											"type": "text"
+										},
+										{
+											"key": "ticket_ids",
+											"value": "HmdPoG0Bx5sQ7cncT5ee",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/{{uuid}}/",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"baskets",
+										"{{uuid}}",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление корзины по uuid",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c73a301d-0ae1-43de-b227-c5b1f720dc33",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);\r",
+											"tests[\"Return status = deleted\"] = jsonData.status === \"deleted\";"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "uuid",
+											"value": "{{uuid}}",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "https://crocus-city-hall.me/api/v1/basket/baskets/{{uuid}}/?",
+									"protocol": "https",
+									"host": [
+										"crocus-city-hall",
+										"me"
+									],
+									"path": [
+										"api",
+										"v1",
+										"basket",
+										"baskets",
+										"{{uuid}}",
+										""
+									],
+									"query": [
+										{
+											"key": "uuid",
+											"value": "{{uuid}}",
+											"disabled": true
+										},
+										{
+											"key": "",
+											"value": "",
 											"disabled": true
 										}
 									]
@@ -1886,7 +2107,7 @@
 										},
 										{
 											"key": "basket",
-											"value": "{\n    \"uuid\": \"7fd4d5be-f97d-11e9-a829-0a4c4c992857\",\n    \"ticket_ids\": [\n        \"3j_-DW4BdNJS2kpBya-P\"\n    ],\n    \"tickets\": {\n        \"3j_-DW4BdNJS2kpBya-P\": {\n            \"basket_uuid\": \"7fd4d5be-f97d-11e9-a829-0a4c4c992857\",\n            \"carryall_id\": \"3j_-DW4BdNJS2kpBya-P\",\n            \"price\": 9200.0,\n            \"event_date\": \"2019-10-29T20:00:00+03:00\",\n            \"margin\": 1.0,\n            \"is_multipled\": false,\n            \"created_at\": \"2019-09-28T15:51:39.286000+03:00\",\n            \"profit\": false,\n            \"group_ids\": []\n        }\n    }\n}",
+											"value": "{\n  \"uuid\": \"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\",\n  \"ticket_ids\": [\n    \"HmdPoG0Bx5sQ7cncT5ee\"\n  ],\n  \"tickets\": {\n    \"HmdPoG0Bx5sQ7cncT5ee\": {\n      \"basket_uuid\": \"ea54fb72-f01c-11e9-bcc3-027b5b2df1d4\",\n      \"carryall_id\": \"HmdPoG0Bx5sQ7cncT5ee\",\n      \"sector\": \"Партер\",\n      \"row\": \"1\",\n      \"seat\": \"2\",\n      \"price\": 1600.0,\n      \"predict_purchase\": 1200.0,\n      \"n_price\": 1600.0,\n      \"event_title\": \"Каприз королевы\",\n      \"event_slug\": \"kapriz_korolevy\",\n      \"event_place\": \"Иван Васильев\",\n      \"event_location\": \"Большая сцена\",\n      \"event_date\": \"2019-10-18T12:00:00+03:00\",\n      \"event_photo\": \"None\",\n      \"event_type\": \"\",\n      \"event_id\": 470377,\n      \"seance_id\": 470377,\n      \"d_id\": 0,\n      \"currency\": \"rur\",\n      \"margin\": 1.0,\n      \"count\": 1,\n      \"is_multipled\": false,\n      \"fee\": 0,\n      \"created_at\": \"2019-10-16T17:27:37.617000+03:00\",\n      \"profit\": true,\n      \"group_ids\": [\n        \"HmdPoG0Bx5sQ7cncT5ee\"\n      ]\n    }\n  }\n}",
 											"type": "text"
 										},
 										{
